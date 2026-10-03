@@ -30,6 +30,22 @@ A single-page React.js application with separate Registration, Login and Dashboa
 | Styling | CSS3 |
 | Storage | localStorage + Web Crypto API (SHA-256) |
 
+## Architecture
+
+```mermaid
+flowchart TD
+    M[main.jsx] --> APP[App.jsx<br/>session state · view switch]
+    APP -->|no session| L[Login.jsx]
+    APP -->|register| R[Registration.jsx]
+    APP -->|logged in| D[Dashboard.jsx]
+    L & R --> IF[InputField.jsx<br/>controlled input + error]
+    L & R --> V[validation.js<br/>field rules]
+    L & R --> AU[auth.js<br/>simulated backend]
+    AU --> LS[(localStorage<br/>users · SHA-256 password hashes · session)]
+```
+
+`auth.js` acts as a mock backend. Users are kept in `localStorage`, and passwords are hashed with SHA-256 through the Web Crypto API before they are stored. The session persists across reloads, and logging out clears it.
+
 ## Folder Structure
 
 ```
